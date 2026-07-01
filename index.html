@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e3328" />
+  <meta name="description" content="从 10 道主题菜中，选出你最愿意花 333 元听的 5 道。" />
+  <title>泡腾丸子的主题私房菜｜10 道高维商业菜单</title>
+  <style>
+    :root {
+      --forest: #173328;
+      --forest-2: #25483a;
+      --cream: #f7f0df;
+      --paper: #fffaf0;
+      --ink: #20241f;
+      --muted: #6f746c;
+      --orange: #ee6b3b;
+      --orange-deep: #c94b25;
+      --lime: #cddd8b;
+      --line: rgba(23, 51, 40, 0.15);
+      --shadow: 0 18px 54px rgba(31, 46, 38, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 4%, rgba(205, 221, 139, .36), transparent 25rem),
+        linear-gradient(180deg, #f8f1e1 0%, #f4ead6 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    button, input, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--forest);
+      color: var(--paper);
+      padding: 22px clamp(20px, 5vw, 72px) 64px;
+      min-height: 520px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      right: -100px;
+      top: -110px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 50%;
+      box-shadow: 0 0 0 48px rgba(255,255,255,.035), 0 0 0 96px rgba(255,255,255,.025);
+    }
+    .hero::after {
+      content: "MENU";
+      position: absolute;
+      right: -12px;
+      bottom: -45px;
+      font-family: Georgia, serif;
+      font-size: clamp(110px, 20vw, 250px);
+      line-height: 1;
+      color: rgba(255,255,255,.035);
+      letter-spacing: -.06em;
+      pointer-events: none;
+    }
+    .hero-inner { width: min(1120px, 100%); margin: 0 auto; position: relative; z-index: 2; }
+    .brand-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .brand-logo { display: block; width: clamp(176px, 21vw, 245px); height: auto; filter: drop-shadow(0 5px 14px rgba(0,0,0,.12)); }
+    .issue { font-family: Georgia, serif; color: var(--lime); font-size: 13px; letter-spacing: .12em; }
+    .eyebrow { margin: 84px 0 16px; color: var(--lime); font-size: 14px; letter-spacing: .22em; font-weight: 700; }
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-family: Georgia, "Songti SC", "STSong", serif;
+      font-size: clamp(44px, 8vw, 92px);
+      line-height: .98;
+      letter-spacing: -.045em;
+      font-weight: 800;
+    }
+    .hero-copy {
+      margin: 28px 0 0;
+      max-width: 590px;
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.75;
+      color: rgba(255,255,255,.78);
+    }
+    .hero-copy strong { color: #fff; }
+    .rules { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .rule {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      font-size: 13px;
+      color: rgba(255,255,255,.8);
+      background: rgba(255,255,255,.055);
+    }
+
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 54px 0 150px; }
+    .intro { display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: end; margin-bottom: 34px; }
+    .kicker { color: var(--orange-deep); font-size: 13px; letter-spacing: .16em; font-weight: 800; }
+    h2 { margin: 8px 0 0; font-family: Georgia, "Songti SC", serif; font-size: clamp(30px, 5vw, 52px); line-height: 1.1; color: var(--forest); }
+    .intro-note { margin: 0; color: var(--muted); line-height: 1.75; font-size: 15px; }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .dish {
+      position: relative;
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      padding: 24px;
+      min-height: 255px;
+      text-align: left;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,250,240,.82);
+      box-shadow: 0 4px 0 rgba(23,51,40,.03);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .dish:hover { transform: translateY(-3px); border-color: rgba(23,51,40,.3); box-shadow: var(--shadow); }
+    .dish:focus-visible { outline: 3px solid rgba(238,107,59,.32); outline-offset: 3px; }
+    .dish.selected {
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest);
+      box-shadow: 0 18px 44px rgba(23,51,40,.22);
+      transform: translateY(-3px);
+    }
+    .dish-number {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--orange-deep);
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      transition: all .18s ease;
+    }
+    .selected .dish-number { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .dish-tag { display: inline-block; color: var(--orange-deep); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+    .selected .dish-tag { color: var(--lime); }
+    .dish h3 { margin: 7px 0 9px; font-family: Georgia, "Songti SC", serif; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.28; }
+    .dish p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .selected p { color: rgba(255,255,255,.68); }
+    .dish-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; gap: 12px; }
+    .price { font-family: Georgia, serif; font-size: 19px; color: var(--forest); font-weight: 700; }
+    .selected .price { color: #fff; }
+    .pick-state { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .selected .pick-state { color: var(--lime); }
+
+    .counterbar {
+      position: fixed;
+      left: 50%;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 24px));
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 13px 14px 13px 20px;
+      border-radius: 20px;
+      color: #fff;
+      background: rgba(23,51,40,.96);
+      box-shadow: 0 20px 60px rgba(23,51,40,.34);
+      backdrop-filter: blur(16px);
+      z-index: 20;
+    }
+    .count-copy { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+    .count { font-family: Georgia, serif; font-size: 29px; color: var(--lime); line-height: 1; }
+    .count-label { font-size: 13px; color: rgba(255,255,255,.7); white-space: nowrap; }
+    .total { margin-left: auto; color: rgba(255,255,255,.48); font-size: 12px; white-space: nowrap; }
+    .submit-btn, .primary-btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 13px 20px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease, background .15s ease;
+    }
+    .submit-btn:hover, .primary-btn:hover { background: #fa7847; transform: translateY(-1px); }
+    .submit-btn:disabled { cursor: not-allowed; opacity: .38; transform: none; }
+
+    dialog {
+      width: min(620px, calc(100% - 24px));
+      border: 0;
+      border-radius: 26px;
+      padding: 0;
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 0 30px 90px rgba(10,30,21,.35);
+    }
+    dialog::backdrop { background: rgba(8,23,17,.66); backdrop-filter: blur(5px); }
+    .modal { padding: clamp(24px, 5vw, 42px); }
+    .modal-top { display: flex; justify-content: space-between; gap: 20px; }
+    .modal h2 { font-size: clamp(30px, 6vw, 46px); }
+    .close-btn { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; color: var(--forest); font-size: 22px; }
+    .modal-desc { color: var(--muted); line-height: 1.7; margin: 12px 0 25px; }
+    .field { display: grid; gap: 8px; margin-top: 16px; }
+    .field label { font-size: 13px; font-weight: 800; color: var(--forest); }
+    .field input, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 13px 14px;
+      background: #fffdf7;
+      color: var(--ink);
+      outline: none;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(238,107,59,.12); }
+    .field textarea { min-height: 86px; resize: vertical; }
+    .selected-list { margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+    .selected-list li { display: flex; gap: 10px; font-size: 13px; line-height: 1.45; }
+    .rank { color: var(--orange-deep); font-family: Georgia, serif; font-weight: 800; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+    .ghost-btn { border: 1px solid var(--line); border-radius: 13px; padding: 12px 17px; background: transparent; color: var(--forest); font-weight: 700; cursor: pointer; }
+
+    .result { text-align: center; }
+    .result-badge { width: 70px; height: 70px; margin: 2px auto 16px; display: grid; place-items: center; border-radius: 50%; background: var(--lime); color: var(--forest); font-size: 30px; }
+    .result-card { margin-top: 20px; padding: 20px; border-radius: 16px; background: #efe7d4; text-align: left; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+    .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .tiny { margin: 15px 0 0; font-size: 12px; color: var(--muted); }
+    .hidden { display: none !important; }
+    .toast { position: fixed; left: 50%; top: 18px; transform: translate(-50%, -18px); opacity: 0; padding: 11px 16px; border-radius: 999px; background: #111f18; color: #fff; font-size: 13px; z-index: 50; pointer-events: none; transition: .22s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .shake { animation: shake .3s ease; }
+    @keyframes shake { 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+
+    @media (max-width: 720px) {
+      .hero { min-height: 500px; padding-bottom: 48px; }
+      .brand-logo { width: 178px; }
+      .eyebrow { margin-top: 64px; }
+      .intro { grid-template-columns: 1fr; gap: 14px; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .dish { min-height: 0; padding: 20px; grid-template-columns: 46px 1fr; }
+      .dish-number { width: 42px; height: 42px; }
+      .counterbar { grid-template-columns: 1fr auto; gap: 10px; padding-left: 15px; }
+      .total { display: none; }
+      .count-copy { gap: 7px; }
+      .submit-btn { padding: 12px 15px; }
+      .result-actions { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand-row">
+        <svg class="brand-logo" viewBox="0 0 520 142" role="img" aria-label="泡腾丸子 PAO WANZI">
+          <text x="0" y="70" fill="#fff" font-family="Arial, sans-serif" font-size="70" font-weight="300" letter-spacing="5">PAOWANZI</text>
+          <path d="M275 52c12 26 34 30 61 19 17-7 33-7 48 1" fill="none" stroke="#14d4df" stroke-width="10" stroke-linecap="square" />
+          <text x="156" y="126" fill="#fff" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="36" font-weight="700" letter-spacing="10">泡腾丸子</text>
+        </svg>
+        <div class="issue">WEEKLY · MENU</div>
+      </div>
+      <p class="eyebrow">泡腾丸子的主题私房菜</p>
+      <h1>10 道高维<br>商业菜单</h1>
+      <p class="hero-copy">假如每道分享价值 <strong>¥333</strong>，请选出你这一周最愿意买单的 <strong>5 道主题</strong>。你的选择，会直接决定这周优先分享什么。</p>
+      <div class="rules" aria-label="点单规则">
+        <span class="rule">10 选 5</span>
+        <span class="rule">按点选顺序记录偏好</span>
+        <span class="rule">本次仅调研 · 不扣款</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="menu-title">
+      <div><span class="kicker">THIS WEEK'S MENU</span><h2 id="menu-title">选出这周最想听的 5 道</h2></div>
+      <p class="intro-note">别选“听起来正确”的，选你此刻真想解决的。点满 5 道即可提交；再次点击可以取消。</p>
+    </section>
+    <section class="menu-grid" id="menuGrid" aria-label="主题菜单"></section>
+  </main>
+
+  <aside class="counterbar" id="counterbar" aria-live="polite">
+    <div class="count-copy"><span class="count"><span id="selectedCount">0</span>/5</span><span class="count-label">已放入餐盘</span><span class="total" id="totalValue">价值 ¥0</span></div>
+    <button class="submit-btn" id="submitBtn" disabled>还差 5 道</button>
+  </aside>
+
+  <dialog id="surveyDialog">
+    <div class="modal" id="formView">
+      <div class="modal-top"><div><span class="kicker">ONE LAST STEP</span><h2>确认你的菜单</h2></div><button class="close-btn" id="closeDialog" aria-label="关闭">×</button></div>
+      <p class="modal-desc">请填写你在群里的名字，方便我识别每一份点单。名字必填，其余可选。</p>
+      <form id="surveyForm">
+        <div class="field"><label for="nickname">你的名字 / 群昵称 *</label><input id="nickname" name="nickname" required maxlength="30" autocomplete="name" placeholder="请填写群里能认出你的名字" /></div>
+        <div class="field"><label for="role">你目前的身份 / 业务阶段</label><input id="role" name="role" maxlength="60" placeholder="例如：教练，正在设计第一个高价产品" /></div>
+        <div class="field"><label for="challenge">此刻最想解决的一个问题</label><textarea id="challenge" name="challenge" maxlength="200" placeholder="一句话就好，这会帮助我把分享讲得更贴近你。"></textarea></div>
+        <ol class="selected-list" id="selectedList"></ol>
+        <div class="form-actions"><button type="button" class="ghost-btn" id="backToMenu">返回修改</button><button type="submit" class="primary-btn" id="finalSubmit">提交点菜单</button></div>
+      </form>
+    </div>
+    <div class="modal result hidden" id="resultView">
+      <div class="result-badge">✓</div>
+      <span class="kicker">ORDER RECEIVED</span>
+      <h2>你的点菜单已生成</h2>
+      <p class="modal-desc" id="resultMessage">你的选择与填写信息已经自动进入飞书表格。</p>
+      <div class="result-card" id="resultCard"></div>
+      <div class="result-actions"><button class="primary-btn" id="copyResult">复制一份备份</button><button class="ghost-btn" id="shareResult">分享点菜单</button></div>
+      <button class="ghost-btn" id="startOver" style="margin-top:10px;width:100%">重新点单</button>
+      <p class="tiny" id="resultNote">提交内容仅用于本周主题调研。</p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const dishes = [
+      { id: 1, tag: "定价底气", title: "为什么有些产品，反而越贵越好卖？", desc: "洞穿涨价的底层逻辑：看透高客单背后的“感知价值”，彻底跳出拼时长的低价陷泥沼。" },
+      { id: 2, tag: "高客单本质", title: "不在这一单，而在整条需求链", desc: "揭开高净值人群的付费真相：从“只卖一次课”升级为接住一整条人生的需求链，锁定长期商业价值。" },
+      { id: 3, tag: "AI 时代 IP", title: "不是让人认识你，而是让人相信你", desc: "看懂信任资产的变现威力：戒掉无效的流量焦虑，把“被看见”转化为客户“把问题交给你”的真金白银。" },
+      { id: 4, tag: "AI 时代杠杆", title: "不是你会用工具，而是你会指挥工具", desc: "完成从执行到指挥的操盘跃迁：不把 AI 当低效执行员，而是让它作为业务镜像，辅助真正的商业拍板。" },
+      { id: 5, tag: "一鱼多吃智慧", title: "高手不是经历更多，而是榨得更透", desc: "掌握内容杠杆的倍增效应：拿走“一鱼多吃”内容操盘法，把单次经历与业务的变现价值彻底榨干。" },
+      { id: 6, tag: "在场感威力", title: "为什么真实现场，比完美干货更打动人？", desc: "还原现场的转化爆发力：用真实的“活人感”替代干巴巴的说教，看懂如何让客户在极强的现场感中推动成交。" },
+      { id: 7, tag: "顶级服务交付", title: "不是按部就班，而是接住没开口的麻烦", desc: "拆解让人无法拒绝的交付细节：练就商业诊断直觉，看高手如何精准接住客户没说出口的内耗与卡点。" },
+      { id: 8, tag: "社群主理人价值", title: "不是把人拉进群，而是让资源流起来", desc: "看透资源变现的枢纽玩法：告别低级客服式群主，让社群和朋友圈的资源高频流动，促成真实成交。" },
+      { id: 9, tag: "以事入道格局", title: "不是做单点消耗，而是活成套复杂系统", desc: "揭秘个人商业系统的闭环飞轮：拒绝单点的时间消耗，让日常做的每一件事都变成喂养高价产品的养料。" },
+      { id: 10, tag: "操盘手 IP 诊断法", title: "不是强套标准人设，而是深挖信任资产", desc: "深挖高势能人群必买的稀缺性：拒绝硬套假人设，找回身上最值钱的商业经历与极致“活人感”。" }
+    ];
+
+    const selected = [];
+    const menuGrid = document.querySelector('#menuGrid');
+    const selectedCount = document.querySelector('#selectedCount');
+    const totalValue = document.querySelector('#totalValue');
+    const submitBtn = document.querySelector('#submitBtn');
+    const dialog = document.querySelector('#surveyDialog');
+    const selectedList = document.querySelector('#selectedList');
+    const toast = document.querySelector('#toast');
+
+    function renderMenu() {
+      menuGrid.innerHTML = dishes.map(dish => `
+        <button class="dish" type="button" data-id="${dish.id}" aria-pressed="false">
+          <span class="dish-number">${String(dish.id).padStart(2, '0')}</span>
+          <span>
+            <span class="dish-tag">${dish.tag}</span>
+            <h3>${dish.title}</h3>
+            <p>${dish.desc}</p>
+            <span class="dish-footer"><span class="price">¥333</span><span class="pick-state">＋ 加入餐盘</span></span>
+          </span>
+        </button>`).join('');
+    }
+
+    function toggleDish(id) {
+      const index = selected.indexOf(id);
+      if (index >= 0) selected.splice(index, 1);
+      else if (selected.length < 5) selected.push(id);
+      else {
+        showToast('餐盘已经满啦，先取消一道再选');
+        const bar = document.querySelector('#counterbar');
+        bar.classList.remove('shake'); void bar.offsetWidth; bar.classList.add('shake');
+        return;
+      }
+      updateUI();
+    }
+
+    function updateUI() {
+      document.querySelectorAll('.dish').forEach(card => {
+        const id = Number(card.dataset.id);
+        const rank = selected.indexOf(id);
+        const active = rank >= 0;
+        card.classList.toggle('selected', active);
+        card.setAttribute('aria-pressed', active);
+        card.querySelector('.dish-number').textContent = active ? rank + 1 : String(id).padStart(2, '0');
+        card.querySelector('.pick-state').textContent = active ? `✓ 第 ${rank + 1} 想听` : '＋ 加入餐盘';
+      });
+      selectedCount.textContent = selected.length;
+      totalValue.textContent = `价值 ¥${selected.length * 333}`;
+      submitBtn.disabled = selected.length !== 5;
+      submitBtn.textContent = selected.length === 5 ? '确认这 5 道' : `还差 ${5 - selected.length} 道`;
+      localStorage.setItem('topic-menu-selection', JSON.stringify(selected));
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function getSelectedDishes() { return selected.map(id => dishes.find(d => d.id === id)); }
+
+    function openSurvey() {
+      if (selected.length !== 5) return;
+      selectedList.innerHTML = getSelectedDishes().map((d, i) => `<li><span class="rank">${i + 1}</span><span>${d.title}</span></li>`).join('');
+      document.querySelector('#formView').classList.remove('hidden');
+      document.querySelector('#resultView').classList.add('hidden');
+      dialog.showModal();
+    }
+
+    function buildResult(data) {
+      const list = getSelectedDishes().map((d, i) => `${i + 1}. ${d.title}`).join('\n');
+      const lines = [
+        `🍽️ 我的「泡腾丸子 10 道高维商业菜单」点菜单`,
+        `点菜人：${data.nickname}`,
+        data.role ? `身份/阶段：${data.role}` : '',
+        '', list, '',
+        `合计价值：¥1,665（本次仅调研，不扣款）`,
+        data.challenge ? `\n我此刻最想解决：${data.challenge}` : '',
+        `\n我已完成 10 选 5，期待开席！`
+      ];
+      return lines.filter((line, i) => line !== '' || lines[i - 1] !== '').join('\n').trim();
+    }
+
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; }
+      catch (_) {
+        const area = document.createElement('textarea'); area.value = text; area.style.position = 'fixed'; area.style.opacity = '0';
+        document.body.appendChild(area); area.select(); const ok = document.execCommand('copy'); area.remove(); return ok;
+      }
+    }
+
+    renderMenu();
+    try {
+      const saved = JSON.parse(localStorage.getItem('topic-menu-selection') || '[]');
+      saved.filter(id => dishes.some(d => d.id === id)).slice(0, 5).forEach(id => selected.push(id));
+    } catch (_) {}
+    updateUI();
+
+    menuGrid.addEventListener('click', e => { const card = e.target.closest('.dish'); if (card) toggleDish(Number(card.dataset.id)); });
+    submitBtn.addEventListener('click', openSurvey);
+    document.querySelector('#closeDialog').addEventListener('click', () => dialog.close());
+    document.querySelector('#backToMenu').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+
+    document.querySelector('#surveyForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.currentTarget));
+      const result = buildResult(data);
+      const finalSubmit = document.querySelector('#finalSubmit');
+      finalSubmit.disabled = true;
+      finalSubmit.textContent = '正在提交…';
+
+      let submitted = false;
+      try {
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.nickname,
+            role: data.role || '',
+            challenge: data.challenge || '',
+            selections: getSelectedDishes().map((dish, index) => ({
+              rank: index + 1,
+              id: dish.id,
+              topic: dish.tag,
+              title: dish.title
+            }))
+          })
+        });
+        submitted = response.ok;
+      } catch (_) {}
+
+      document.querySelector('#resultCard').textContent = result;
+      document.querySelector('#resultMessage').textContent = submitted
+        ? '你的名字、业务阶段、当前问题和 5 道选择，已经自动进入飞书表格。'
+        : '当前是本地预览，尚未连接线上收集服务。你可以先复制一份结果备份。';
+      document.querySelector('#resultNote').textContent = submitted
+        ? '提交成功，本页不会公开你的个人信息。'
+        : '正式上线并连接飞书 Webhook 后，这一步会自动提交。';
+      document.querySelector('#formView').classList.add('hidden');
+      document.querySelector('#resultView').classList.remove('hidden');
+      localStorage.setItem('topic-menu-last-result', result);
+      finalSubmit.disabled = false;
+      finalSubmit.textContent = '提交点菜单';
+    });
+
+    document.querySelector('#copyResult').addEventListener('click', async () => {
+      const result = document.querySelector('#resultCard').textContent;
+      const copied = await copyText(result);
+      if (copied) showToast('已复制一份点菜单备份');
+    });
+
+    document.querySelector('#shareResult').addEventListener('click', async () => {
+      const text = document.querySelector('#resultCard').textContent;
+      if (navigator.share) {
+        try { await navigator.share({ title: '我的主题点菜单', text }); } catch (_) {}
+      } else if (await copyText(text)) showToast('已复制点菜单');
+    });
+
+    document.querySelector('#startOver').addEventListener('click', () => {
+      selected.splice(0, selected.length); updateUI();
+      document.querySelector('#surveyForm').reset(); dialog.close();
+      window.scrollTo({ top: document.querySelector('main').offsetTop, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
