@@ -1,0 +1,12 @@
+{
+  "name": "paowanzi-weekly-menu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "泡腾丸子一周高维商业菜单",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
